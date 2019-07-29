@@ -248,7 +248,7 @@ export default {
     this.getProducts()
   },
   components: {
-    Pagination,
-  },
+    Pagination
+  }
 }
 </script>

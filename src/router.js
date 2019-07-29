@@ -4,6 +4,8 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export default new Router({
+  linkActiveClass: 'active',
+
   routes: [
     {
       path: '*',
@@ -30,6 +32,18 @@ export default new Router({
           path: 'products',
           name: 'ProductsList',
           component: () => import('@/components/ProductsList'),
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'coupons',
+          name: 'Coupons',
+          component: () => import('@/components/Coupons'),
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'orders',
+          name: 'Orders',
+          component: () => import('@/components/Orders'),
           meta: { requiresAuth: true }
         }
       ]
