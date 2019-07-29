@@ -9,12 +9,12 @@ export default new Router({
       path: '*',
       redirect: 'login'
     },
-    {
-      path: '/',
-      name: 'Home',
-      component: () => import('@/views/Home.vue'),
-      meta: { requiresAuth: true }
-    },
+    // {
+    //   path: '/',
+    //   name: 'Home',
+    //   component: () => import('@/views/Home.vue'),
+    //   meta: { requiresAuth: true }
+    // },
     {
       path: '/login',
       name: 'Login',
