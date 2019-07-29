@@ -6,9 +6,14 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '*',
+      redirect: 'login'
+    },
+    {
       path: '/',
       name: 'Home',
-      component: () => import('@/views/Home.vue')
+      component: () => import('@/views/Home.vue'),
+      meta: { requiresAuth: true }
     },
     {
       path: '/login',
