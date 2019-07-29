@@ -19,6 +19,20 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: () => import('@/views/Login')
+    },
+    {
+      path: '/admin',
+      name: 'Dashboard',
+      component: () => import('@/views/Dashboard'),
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: 'products',
+          name: 'ProductsList',
+          component: () => import('@/components/ProductsList'),
+          meta: { requiresAuth: true }
+        }
+      ]
     }
   ]
 })
