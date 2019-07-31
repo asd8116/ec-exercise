@@ -82,15 +82,13 @@
           <tbody v-if="cart.carts">
             <tr v-for="item in cart.carts" :key="item.id">
               <td class="align-middle">
-                <button type="button" class="btn btn-outline-danger btn-sm">
+                <button type="button" class="btn btn-outline-danger btn-sm" @click="removeCartItem(item.id)">
                   <i class="far fa-trash-alt"></i>
                 </button>
               </td>
               <td class="align-middle">
                 {{ item.product.title }}
-                <!-- <div class="text-success" v-if="item.coupon">
-                  已套用優惠券
-                </div>-->
+                <div class="text-success" v-if="item.coupon">已套用優惠券</div>
               </td>
               <td class="align-middle">{{ item.qty }}/{{ item.product.unit }}</td>
               <td class="align-middle text-right">{{ item.final_total }}</td>
@@ -101,12 +99,19 @@
               <td colspan="3" class="text-right">總計</td>
               <td class="text-right">{{ cart.total }}</td>
             </tr>
-            <!-- <tr v-if="cart.final_total">
+            <tr v-if="cart.final_total !== cart.total">
               <td colspan="3" class="text-right text-success">折扣價</td>
               <td class="text-right text-success">{{ cart.final_total }}</td>
-            </tr>-->
+            </tr>
           </tfoot>
         </table>
+
+        <div class="input-group mb-3 input-group-sm">
+          <input type="text" class="form-control" v-model="coupon_code" placeholder="請輸入優惠碼" />
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" @click="addCouponCode">套用優惠碼</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -124,7 +129,8 @@ export default {
         loadingItem: ''
       },
       cart: {},
-      isLoading: false
+      isLoading: false,
+      coupon_code: ''
     }
   },
   methods: {
@@ -176,6 +182,30 @@ export default {
       this.$http.get(url).then(response => {
         vm.cart = response.data.data
         console.log(response)
+        vm.isLoading = false
+      })
+    },
+    removeCartItem(id) {
+      const vm = this
+      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`
+
+      vm.isLoading = true
+      this.$http.delete(url).then(() => {
+        vm.getCart()
+        vm.isLoading = false
+      })
+    },
+    addCouponCode() {
+      const vm = this
+      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/coupon`
+      const coupon = {
+        code: vm.coupon_code
+      }
+
+      vm.isLoading = true
+      this.$http.post(url, { data: coupon }).then(response => {
+        console.log(response)
+        vm.getCart()
         vm.isLoading = false
       })
     }
