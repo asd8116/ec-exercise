@@ -71,24 +71,24 @@ export default {
       const vm = this
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${vm.orderId}`
 
-      vm.$store.state.isLoading = true
+      vm.$store.dispatch('updateLoading', true)
       this.$http.get(url).then(response => {
         vm.order = response.data.order
         console.log(response)
-        vm.$store.state.isLoading = false
+        vm.$store.dispatch('updateLoading', false)
       })
     },
     payOrder() {
       const vm = this
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/pay/${vm.orderId}`
 
-      vm.$store.state.isLoading = true
+      vm.$store.dispatch('updateLoading', true)
       this.$http.post(url).then(response => {
         console.log(response)
         if (response.data.success) {
           vm.getOrder()
         }
-        vm.$store.state.isLoading = false
+        vm.$store.dispatch('updateLoading', false)
       })
     }
   },

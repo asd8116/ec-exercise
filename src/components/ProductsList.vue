@@ -164,12 +164,12 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/products?page=${page}`
       const vm = this
       console.log(process.env.VUE_APP_APIPATH, process.env.VUE_APP_CUSTOMPATH)
-      vm.$store.state.isLoading = true
+      vm.$store.dispatch('updateLoading', true)
       this.$http.get(api).then(response => {
         console.log(response.data)
 
         if (response.data.success) {
-          vm.$store.state.isLoading = false
+          vm.$store.dispatch('updateLoading', false)
           vm.products = response.data.products
           vm.pagination = response.data.pagination
         }
@@ -221,7 +221,7 @@ export default {
       this.$http.delete(url).then(response => {
         console.log(response, vm.tempProduct)
         $('#delProductModal').modal('hide')
-        vm.$store.state.isLoading = false
+        vm.$store.dispatch('updateLoading', false)
         this.getProducts()
       })
     },

@@ -206,11 +206,11 @@ export default {
       const vm = this
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products`
 
-      vm.$store.state.isLoading = true
+      vm.$store.dispatch('updateLoading', true)
       this.$http.get(url).then(response => {
         vm.products = response.data.products
         console.log(response)
-        vm.$store.state.isLoading = false
+        vm.$store.dispatch('updateLoading', false)
       })
     },
     getProduct(id) {
@@ -246,21 +246,21 @@ export default {
       const vm = this
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`
 
-      vm.$store.state.isLoading = true
+      vm.$store.dispatch('updateLoading', true)
       this.$http.get(url).then(response => {
         vm.cart = response.data.data
         console.log(response)
-        vm.$store.state.isLoading = false
+        vm.$store.dispatch('updateLoading', false)
       })
     },
     removeCartItem(id) {
       const vm = this
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`
 
-      vm.$store.state.isLoading = true
+      vm.$store.dispatch('updateLoading', true)
       this.$http.delete(url).then(() => {
         vm.getCart()
-        vm.$store.state.isLoading = false
+        vm.$store.dispatch('updateLoading', false)
       })
     },
     addCouponCode() {
@@ -270,11 +270,11 @@ export default {
         code: vm.coupon_code
       }
 
-      vm.$store.state.isLoading = true
+      vm.$store.dispatch('updateLoading', true)
       this.$http.post(url, { data: coupon }).then(response => {
         console.log(response)
         vm.getCart()
-        vm.$store.state.isLoading = false
+        vm.$store.dispatch('updateLoading', false)
       })
     },
     createOrder() {
@@ -289,7 +289,7 @@ export default {
               vm.$router.push(`/customer_checkout/${response.data.orderId}`)
             }
             // vm.getCart();
-            vm.$store.state.isLoading = false
+            vm.$store.dispatch('updateLoading', false)
           })
         } else {
           console.log('欄位不完整')
