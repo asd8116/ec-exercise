@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Loading :active.sync="isLoading"></Loading>
     <table class="table mt-4">
       <thead>
         <tr>
@@ -46,8 +45,7 @@ export default {
     return {
       orders: {},
       isNew: false,
-      pagination: {},
-      isLoading: false
+      pagination: {}
     }
   },
   components: {
@@ -58,11 +56,11 @@ export default {
       const vm = this
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/orders?page=${currentPage}`
 
-      vm.isLoading = true
+      vm.$store.state.isLoading = true
       this.$http.get(url, vm.tempProduct).then(response => {
         vm.orders = response.data.orders
         vm.pagination = response.data.pagination
-        vm.isLoading = false
+        vm.$store.state.isLoading = false
         console.log(response)
       })
     }

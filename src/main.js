@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import Loading from 'vue-loading-overlay'
@@ -10,12 +11,14 @@ import VueI18n from 'vue-i18n'
 
 import App from './App.vue'
 import router from './router'
+import store from './store'
 import './bus'
 import currencyFilter from './filters/currency'
 import dateFilter from './filters/date'
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
+Vue.use(Vuex)
 
 Vue.use(VueI18n)
 const i18n = new VueI18n({ locale: 'zhTW' })
@@ -33,6 +36,7 @@ axios.defaults.withCredentials = true
 new Vue({
   i18n,
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
 

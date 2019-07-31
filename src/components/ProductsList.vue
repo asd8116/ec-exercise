@@ -1,6 +1,5 @@
 <template>
   <div>
-    <loading :active.sync="isLoading"></loading>
     <div class="text-right mt-4">
       <button class="btn btn-primary" @click="openModal(true)">建立新的產品</button>
     </div>
@@ -155,7 +154,6 @@ export default {
       pagination: {},
       tempProduct: {},
       isNew: false,
-      isLoading: false,
       status: {
         fileUploading: false
       }
@@ -166,12 +164,12 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/products?page=${page}`
       const vm = this
       console.log(process.env.VUE_APP_APIPATH, process.env.VUE_APP_CUSTOMPATH)
-      vm.isLoading = true
+      vm.$store.state.isLoading = true
       this.$http.get(api).then(response => {
         console.log(response.data)
 
         if (response.data.success) {
-          vm.isLoading = false
+          vm.$store.state.isLoading = false
           vm.products = response.data.products
           vm.pagination = response.data.pagination
         }
@@ -223,7 +221,7 @@ export default {
       this.$http.delete(url).then(response => {
         console.log(response, vm.tempProduct)
         $('#delProductModal').modal('hide')
-        vm.isLoading = false
+        vm.$store.state.isLoading = false
         this.getProducts()
       })
     },

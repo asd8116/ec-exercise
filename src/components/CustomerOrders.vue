@@ -1,7 +1,5 @@
 <template>
   <div>
-    <loading :active.sync="isLoading"></loading>
-
     <div class="row mt-4">
       <div class="col-md-4 mb-4" v-for="item in products" :key="item.id">
         <div class="card border-0 shadow-sm">
@@ -200,7 +198,6 @@ export default {
         },
         message: ''
       },
-      isLoading: false,
       coupon_code: ''
     }
   },
@@ -209,11 +206,11 @@ export default {
       const vm = this
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products`
 
-      vm.isLoading = true
+      vm.$store.state.isLoading = true
       this.$http.get(url).then(response => {
         vm.products = response.data.products
         console.log(response)
-        vm.isLoading = false
+        vm.$store.state.isLoading = false
       })
     },
     getProduct(id) {
@@ -249,21 +246,21 @@ export default {
       const vm = this
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`
 
-      vm.isLoading = true
+      vm.$store.state.isLoading = true
       this.$http.get(url).then(response => {
         vm.cart = response.data.data
         console.log(response)
-        vm.isLoading = false
+        vm.$store.state.isLoading = false
       })
     },
     removeCartItem(id) {
       const vm = this
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`
 
-      vm.isLoading = true
+      vm.$store.state.isLoading = true
       this.$http.delete(url).then(() => {
         vm.getCart()
-        vm.isLoading = false
+        vm.$store.state.isLoading = false
       })
     },
     addCouponCode() {
@@ -273,18 +270,17 @@ export default {
         code: vm.coupon_code
       }
 
-      vm.isLoading = true
+      vm.$store.state.isLoading = true
       this.$http.post(url, { data: coupon }).then(response => {
         console.log(response)
         vm.getCart()
-        vm.isLoading = false
+        vm.$store.state.isLoading = false
       })
     },
     createOrder() {
       const vm = this
       const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`
       const order = vm.form
-      // vm.isLoading = true;
       this.$validator.validate().then(result => {
         if (result) {
           this.$http.post(url, { data: order }).then(response => {
@@ -293,7 +289,7 @@ export default {
               vm.$router.push(`/customer_checkout/${response.data.orderId}`)
             }
             // vm.getCart();
-            vm.isLoading = false
+            vm.$store.state.isLoading = false
           })
         } else {
           console.log('欄位不完整')

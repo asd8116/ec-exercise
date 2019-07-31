@@ -6,7 +6,12 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  computed: {
+    isLoading() {
+      return this.$store.state.isLoading
+    }
+  }
 }
 </script>
 
